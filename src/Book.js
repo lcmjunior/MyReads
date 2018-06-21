@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import Book from "./Book";
 
-export default class Books extends Component {
+export default class Book extends Component {
   state = {
     book: {}
   };

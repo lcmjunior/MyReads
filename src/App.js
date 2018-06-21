@@ -5,16 +5,13 @@ import "./App.css";
 
 export default class MyReadApp extends Component {
   state = {
-    lstBooks: [1, 2, 3],
+    lstBooks: [],
     showSearchPage: false
   };
   changeBookShelf = bookChanged => {
     let bookIndex = this.state.lstBooks.findIndex(x => x.id == bookChanged.id);
-
-    let lstBooksCopy = JSON.parse(JSON.stringify(this.state.lstBooks));
-
+    let lstBooksCopy = this.state.lstBooks;
     lstBooksCopy[bookIndex] = bookChanged;
-
     this.setState({
       lstBooks: lstBooksCopy
     });
