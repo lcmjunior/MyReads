@@ -1,14 +1,70 @@
 import React, { Component } from "react";
-import { BooksProvider } from "./BooksContext";
+import { getAll } from "./BooksAPI";
+import BookShelf from "./BookShelf";
 import "./App.css";
-import MyReadApp from "./MyReadApp";
 
-export default class Estante extends Component {
+export default class MyReadApp extends Component {
+  state = {
+    lstBooks: [1, 2, 3],
+    showSearchPage: false
+  };
+  changeBookShelf = bookChanged => {
+    let bookIndex = this.state.lstBooks.findIndex(x => x.id == bookChanged.id);
+
+    let lstBooksCopy = JSON.parse(JSON.stringify(this.state.lstBooks));
+
+    lstBooksCopy[bookIndex] = bookChanged;
+
+    this.setState({
+      lstBooks: lstBooksCopy
+    });
+  };
+
+  componentDidMount() {
+    // Map books in Shelf`s
+    getAll().then(lstBooks => {
+      this.setState({
+        lstBooks
+      });
+    });
+  }
+
   render() {
     return (
-      <BooksProvider>
-        <MyReadApp />>
-      </BooksProvider>
+      <div className="app">
+        <div className="list-books">
+          <div className="list-books-title">
+            <h1>MyReads</h1>
+          </div>
+
+          <BookShelf
+            shelfName="Currently Reading"
+            changeBookShelf={this.changeBookShelf}
+            booksList={this.state.lstBooks.filter(obj => {
+              return obj.shelf === "currentlyReading";
+            })}
+          />
+          <BookShelf
+            shelfName="Want To Read"
+            changeBookShelf={this.changeBookShelf}
+            booksList={this.state.lstBooks.filter(obj => {
+              return obj.shelf === "wantToRead";
+            })}
+          />
+          <BookShelf
+            shelfName="Read"
+            changeBookShelf={this.changeBookShelf}
+            booksList={this.state.lstBooks.filter(obj => {
+              return obj.shelf === "read";
+            })}
+          />
+          <div className="open-search">
+            <a onClick={() => this.setState({ showSearchPage: true })}>
+              Add a book
+            </a>
+          </div>
+        </div>
+      </div>
     );
   }
 }

@@ -1,12 +1,10 @@
 import React, { Component } from "react";
+import Book from "./Book";
 
-export default class Book extends Component {
+export default class Books extends Component {
   state = {
-    book: this.props.object,
-    st: "teste"
+    book: {}
   };
-  const = { book: this.state.book };
-
   getFirstElementOfArray() {
     if (
       this.state.book.hasOwnProperty("imageLinks") &&
@@ -24,6 +22,16 @@ export default class Book extends Component {
     } else return "bbb";
   }
 
+  handleChange = (e, ebook) => {
+    ebook.shelf = e.target.value;
+    console.log(ebook);
+    this.props.changeBookShelf(ebook);
+  };
+
+  componentDidMount() {
+    this.setState({ book: this.props.object });
+  }
+
   render() {
     return (
       <div className="book">
@@ -37,7 +45,10 @@ export default class Book extends Component {
             }}
           />
           <div className="book-shelf-changer">
-            <select>
+            <select
+              onChange={event => this.handleChange(event, this.state.book)}
+              value={this.props.object.shelf}
+            >
               <option value="move" disabled>
                 Move to...
               </option>
@@ -49,7 +60,7 @@ export default class Book extends Component {
           </div>
         </div>
         <div className="book-title">{this.props.title}</div>
-        <div className="book-authors">{this.state.book.title}</div>
+        <div className="book-authors">{this.props.object.title}</div>
       </div>
     );
   }
