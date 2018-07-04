@@ -4,7 +4,6 @@ import Book from "./Book";
 
 export default class BoolShelf extends Component {
   render() {
-    console.log(JSON.stringify(this.props));
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{this.props.shelfName}</h2>

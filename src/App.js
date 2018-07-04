@@ -11,12 +11,13 @@ export default class MyReadApp extends Component {
     showSearchPage: false
   };
   changeBookShelf = bookChanged => {
-    let bookIndex = this.state.lstBooks.findIndex(x => x.id == bookChanged.id);
+    let bookIndex = this.state.lstBooks.findIndex(x => x.id === bookChanged.id);
     let lstBooksCopy = this.state.lstBooks;
     lstBooksCopy[bookIndex] = bookChanged;
     update(bookChanged, bookChanged.shelf);
     this.setState({
-      lstBooks: lstBooksCopy
+      lstBooks:
+        bookIndex !== -1 ? lstBooksCopy : lstBooksCopy.concat(bookChanged)
     });
   };
 
@@ -69,7 +70,12 @@ export default class MyReadApp extends Component {
         />
         <Route
           path="/search"
-          render={() => <BookSearch changeBookShelf={this.changeBookShelf} />}
+          render={() => (
+            <BookSearch
+              changeBookShelf={this.changeBookShelf}
+              userBooks={this.state.lstBooks}
+            />
+          )}
         />
       </div>
     );

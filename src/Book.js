@@ -14,16 +14,11 @@ export default class Book extends Component {
       if (objImg.length > 0) return "asdf";
       return objImg.thumbnail;
     }
-    return "url('sss')";
-    if (this.state.book.imageLinks.hasOwnProperty("thumbnail")) {
-      if (this.state.book.imageLinks.length > 0) return "imagems";
-      else return "zzz";
-    } else return "bbb";
+    return "";
   }
 
   handleChange = (e, ebook) => {
     ebook.shelf = e.target.value;
-    console.log(ebook);
     this.props.changeBookShelf(ebook);
   };
 
@@ -46,7 +41,11 @@ export default class Book extends Component {
           <div className="book-shelf-changer">
             <select
               onChange={event => this.handleChange(event, this.state.book)}
-              value={this.props.object.shelf}
+              value={
+                this.props.object.shelf !== undefined
+                  ? this.props.object.shelf
+                  : "none"
+              }
             >
               <option value="move" disabled>
                 Move to...
