@@ -9,7 +9,7 @@ export default class Book extends Component {
       this.state.book.hasOwnProperty("imageLinks") &&
       this.state.book.imageLinks.hasOwnProperty("thumbnail")
     ) {
-      let objImg = this.state.book.imageLinks;
+      const objImg = this.state.book.imageLinks;
 
       if (objImg.length > 0) return "";
       return objImg.thumbnail;
@@ -57,8 +57,12 @@ export default class Book extends Component {
             </select>
           </div>
         </div>
-        <div className="book-title">{this.props.title}</div>
-        <div className="book-authors">{this.props.object.title}</div>
+        <div className="book-title">{this.props.object.title}</div>
+        <div className="book-authors">
+          {this.props.object.authors !== undefined
+            ? this.props.object.authors
+            : "sem autor"}
+        </div>
       </div>
     );
   }

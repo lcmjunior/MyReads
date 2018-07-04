@@ -23,7 +23,7 @@ export default class BookSearch extends Component {
   mergeList(res) {
     if (!res.hasOwnProperty("error")) {
       res.forEach((obj, index) => {
-        let bookFind = this.props.userBooks.find(b => b.id === obj.id);
+        const bookFind = this.props.userBooks.find(b => b.id === obj.id);
         if (bookFind !== undefined) {
           res[index] = bookFind;
         }
