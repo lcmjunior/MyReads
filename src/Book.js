@@ -11,7 +11,7 @@ export default class Book extends Component {
     ) {
       let objImg = this.state.book.imageLinks;
 
-      if (objImg.length > 0) return "asdf";
+      if (objImg.length > 0) return "";
       return objImg.thumbnail;
     }
     return "";

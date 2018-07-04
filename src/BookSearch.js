@@ -6,12 +6,18 @@ import { DebounceInput } from "react-debounce-input";
 
 export default class BookSearch extends Component {
   state = {
-    lstBooksSearch: []
+    lstBooksSearch: [],
+    loading: false
   };
 
   updateQuery = query => {
-    query.length > 0 && search(query).then(res => this.mergeList(res));
-    query.length <= 0 && this.setState({ lstBooksSearch: [] });
+    if (query.length > 0) {
+      this.setState({ loading: true });
+      search(query).then(res => this.mergeList(res));
+    }
+    if (query.length <= 0) {
+      this.setState({ lstBooksSearch: [], loading: false });
+    }
   };
 
   mergeList(res) {
@@ -24,7 +30,8 @@ export default class BookSearch extends Component {
       });
     }
     this.setState({
-      lstBooksSearch: res.hasOwnProperty("error") ? [] : res
+      lstBooksSearch: res.hasOwnProperty("error") ? [] : res,
+      loading: false
     });
   }
 
@@ -44,6 +51,14 @@ export default class BookSearch extends Component {
             />
           </div>
         </div>
+
+        {this.state.loading === true && (
+          <div className="loadingback">
+            <div className="loading">
+              <img src={require("./images/loadingbook.gif")} />
+            </div>
+          </div>
+        )}
         <div className="search-books-results">
           <BookShelf
             booksList={this.state.lstBooksSearch}
